@@ -1,11 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import atm_abi from "../artifacts/contracts/Assessment.sol/Assessment.json";
 
-
-export default function HomePage() {
-
+export default function HomePage(){
   const [balance, setBalance] = useState(undefined);
   const [recipientAddress, setRecipientAddress] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
@@ -18,35 +15,30 @@ export default function HomePage() {
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const atmABI = atm_abi.abi;
 
-
   const getWallet = async () => {
     if (window.ethereum) {
       setEthWallet(new ethers.providers.Web3Provider(window.ethereum));
     }
   };
 
-
   const handleAccount = async () => {
     const accounts = await ethWallet.listAccounts();
     setAccount(accounts[0]);
   };
 
-
   const connectAccount = async () => {
     if (!ethWallet) {
-      alert("MetaMask wallet is required to connect");
+      alert("Your Metamask wallet must be connected");
       return;
     }
-
 
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       handleAccount();
     } catch (error) {
-      console.error("Error connecting account:", error);
+      console.error("!Error! please try to connect your account again!:", error);
     }
   };
-
 
   const getATMContract = async () => {
     if (ethWallet) {
@@ -56,14 +48,12 @@ export default function HomePage() {
     }
   };
 
-
   const getBalance = async () => {
     if (atm) {
       const balance = await atm.getBalance();
       setBalance(balance.toNumber());
     }
   };
-
 
   const deposit = async () => {
     if (atm) {
@@ -72,11 +62,10 @@ export default function HomePage() {
         await tx.wait();
         getBalance();
       } catch (error) {
-        console.error("Error depositing:", error);
+        console.error("Your desopit, errors:", error);
       }
     }
   };
-
 
   const withdraw = async () => {
     if (atm) {
@@ -85,11 +74,10 @@ export default function HomePage() {
         await tx.wait();
         getBalance();
       } catch (error) {
-        console.error("Error withdrawing:", error);
+        console.error("Your withdrawal, errors:", error);
       }
     }
   };
-
 
   const sendETH = async () => {
     if (ethWallet && recipientAddress && amountToSend) {
@@ -103,33 +91,28 @@ export default function HomePage() {
         setMessage("Transfer complete");
       } catch (error) {
         console.error("Error sending ETH:", error);
-        setMessage("Transfer failed");
+        setMessage("Transaction Failed, your transfers didn't execute");
       }
     } else {
-      setMessage("Please enter a valid address and amount");
+      setMessage("Please enter a valid contract address and amount (ETH)");
     }
   };
-
 
   const handleRecipientAddressChange = (event) => {
     setRecipientAddress(event.target.value);
   };
 
-
   const handleAmountToSendChange = (event) => {
     setAmountToSend(event.target.value);
   };
 
-
   const toggleAccountVisibility = () => {
-    setShowAccount(!showAccount); // Toggle the visibility state
+    setShowAccount(!showAccount); 
   };
-
 
   useEffect(() => {
     getWallet();
   }, []);
-
 
   useEffect(() => {
     if (ethWallet) {
@@ -138,11 +121,9 @@ export default function HomePage() {
     }
   }, [ethWallet]);
 
-
   useEffect(() => {
     getBalance();
   }, [atm]);
-
 
   return (
     <main className="container">
