@@ -1,7 +1,6 @@
 # METAMASK_ASSESSMENT
 
 Project: Function Frontend 
-MODULE 2
 
 After cloning the github, you will want to do the following to get the code running on your computer. 
 1.Inside the project directory, in the terminal type: npm i 
