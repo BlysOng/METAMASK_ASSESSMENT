@@ -6,11 +6,12 @@ contract Assessment {
     uint256 public balance;
     bool public paused;
 
+
+    event Paused();
+    event Unpaused();
     event Deposit(uint256 amount);
     event Withdraw(uint256 amount);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-    event Paused();
-    event Unpaused();
 
     // Modifier to check if the caller is the owner
     modifier onlyOwner() {
